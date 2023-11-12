@@ -1,8 +1,11 @@
 use colored::Colorize;
 use rand::Rng;
+use serde::{Serialize, Deserialize};
+use std::{io::stdin, error::Error, fs};
 
 use super::enemy::Enemy;
 
+#[derive(Serialize, Deserialize)]
 pub struct Player {
     pub name: String,
     pub health: i32,
@@ -17,7 +20,11 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new(name: String) -> Player {
+    pub fn new() -> Player {
+        println!("Enter player name: ");
+        let mut name = String::new();
+        stdin().read_line(&mut name).expect("Failed to read line");
+        let name = name.trim().to_string();
         Player {
             name,
             health: 100,
@@ -30,6 +37,27 @@ impl Player {
             speed: 1.0,
             crit_chance: 0.25,
         }
+    }
+
+    pub fn load() -> Result<Player, Box<dyn Error>> {
+        let file_path = "data/player_data.json";
+        if fs::metadata(file_path).is_ok() {
+            let player_data = fs::read_to_string(file_path)?;
+            let player: Player = serde_json::from_str(&player_data)?;
+            Ok(player)
+        } else {
+            let new_player = Player::new();
+            new_player.save()?;
+            println!("New player created and possibly saved?");
+            Ok(new_player)
+        }
+    }
+
+    pub fn save(&self) -> Result<(), Box<dyn Error>> {
+        let file_path = "data/player_data.json";
+        let player_data = serde_json::to_string(self)?;
+        fs::write(file_path, player_data)?;
+        Ok(())
     }
 
     pub fn level_up(&mut self) {
@@ -64,5 +92,21 @@ impl Player {
             println!("{} strikes for {} damage", self.name.green(), damage);
             target.take_damage(damage);
         }
+    }
+
+    pub fn clone(&mut self) -> Player {
+        let player = Player {
+            name: self.name.clone(),
+            health: self.health,
+            max_health: self.max_health,
+            level: self.level,
+            xp: self.xp,
+            next_level_xp: self.next_level_xp,
+            attack: self.attack,
+            armor: self.armor,
+            speed: self.speed,
+            crit_chance: self.crit_chance,
+        };
+        player
     }
 }

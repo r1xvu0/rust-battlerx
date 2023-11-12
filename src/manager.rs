@@ -17,7 +17,7 @@ impl Manager {
     pub fn new() -> Manager {
         Manager {
             manager_state: ManagerState::City,
-            player: player::Player::new("Cloud".to_string()),
+            player: player::Player::load().expect("Failed to load player"),
         }
     }
 
@@ -53,12 +53,14 @@ impl Manager {
     }
 
     fn battle(&mut self) {
-        let player = player::Player::new("Cloud".to_string());
+        let player = self.player.clone();
         let enemy = enemy::Enemy::new("Behemot".to_string());
 
         let mut battler = battler::Battler::new(player, enemy);
         battler.fight(self);
-        println!("Player has {} health left", battler.player.health);
+        self.player = battler.player;
+        self.player.save().expect("Failed to save player");
+        println!("Player HP: {:?}", self.player.health);
         self.start();
     }
 

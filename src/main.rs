@@ -19,5 +19,4 @@ fn main() {
     // manager.change_state(ManagerState::City);
     // manager.start();
 
-
 }
