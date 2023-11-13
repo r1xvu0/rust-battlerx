@@ -13,10 +13,11 @@ pub struct Player {
     pub level: i32,
     pub xp: i32,
     pub next_level_xp: i32,
-    pub attack: i32,
-    pub armor: i32,
+    pub damage: i32,
+    pub defense: i32,
     pub speed: f32,
     pub crit_chance: f32,
+    pub crit_multi: f32,
     pub location: String,
 }
 
@@ -30,13 +31,14 @@ impl Player {
             name,
             health: 100,
             max_health: 100,
-            level: 30,
+            level: 1,
             xp: 0,
             next_level_xp: 100,
-            attack: 5,
-            armor: 3,
+            damage: 5,
+            defense: 3,
             speed: 1.0,
             crit_chance: 0.25,
+            crit_multi: 1.5,
             location: "Silver City".to_string(),
         }
     }
@@ -74,29 +76,24 @@ impl Player {
 
     pub fn take_damage(&mut self, damage: i32) {
         self.health -= damage;
-        println!(" => {} has {} health left", self.name.green(), self.health);
+        println!(" => {} has {} {}", self.name.green(), self.health.to_string().bold(), "health left".bold());
     }
 
     pub fn attack(&self, target: &mut Enemy) {
         let mut rng = rand::thread_rng();
-        let crit_roll: f32 = rng.gen_range(0.0..1.0);
-        let random_mod: i32 = rng.gen_range(0..10);
-        let random_modifier = random_mod * self.level / 10;
-        // println!("{}", random_modifier);
+        
+        let damage_modifier = rng.gen_range(0.9..=1.5);
+        let base_damage = ((self.damage as f32 * damage_modifier) as i32).max(0);
+        let damage = (base_damage - target.defense).max(0);
+
+        let crit_roll = rng.gen_range(0.0..1.0);
 
         if crit_roll < self.crit_chance {
-            let mut crit_damage = ((self.attack + random_modifier) - target.armor) * 2;
-            if crit_damage < 0 {
-                crit_damage = 0
-            }
-            println!("{} {} strikes for {} damage", self.name.green(), "critically".to_string().yellow() , crit_damage);
-            target.take_damage(crit_damage);
+            let crit_damage = ((damage as f32) * self.crit_multi) as i32;
+            println!("{} {} strikes for {} damage", self.name.green(), "critically".to_string().yellow() , crit_damage.to_string().red().bold());
+            target.take_damage(damage);
         } else {
-            let mut damage = (self.attack + random_modifier) - target.armor;
-            if damage < 0 {
-                damage = 0
-            }
-            println!("{} strikes for {} damage", self.name.green(), damage);
+            println!("{} strikes for {} damage", self.name.green(), damage.to_string().red().bold());
             target.take_damage(damage);
         }
     }
@@ -109,10 +106,11 @@ impl Player {
             level: self.level,
             xp: self.xp,
             next_level_xp: self.next_level_xp,
-            attack: self.attack,
-            armor: self.armor,
+            damage: self.damage,
+            defense: self.defense,
             speed: self.speed,
             crit_chance: self.crit_chance,
+            crit_multi: self.crit_multi,
             location: self.location.clone(),
         };
         player

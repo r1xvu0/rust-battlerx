@@ -11,10 +11,11 @@ pub struct Enemy {
     pub name: String,
     pub health: i32,
     pub level: i32,
-    pub attack: i32,
-    pub armor: i32,
+    pub damage: i32,
+    pub defense: i32,
     pub speed: f32,
     pub crit_chance: f32,
+    pub crit_multi: f32,
 }
 
 impl Enemy {
@@ -24,14 +25,14 @@ impl Enemy {
     //         health: enemy_data.health,
     //         level: enemy_data.level,
     //         attack: enemy_data.attack,
-    //         armor: enemy_data.armor,
+    //         defense: enemy_data.defense,
     //         speed: enemy_data.speed,
     //         crit_chance: enemy_data.crit_chance,
     //         // name,
     //         // health: 100,
     //         // level: 1,
     //         // attack: 5,
-    //         // armor: 4,
+    //         // defense: 4,
     //         // speed: 0.8,
     //         // crit_chance: 0.0,
     //     }
@@ -60,10 +61,11 @@ impl Enemy {
             name: enemy.name.clone(),
             health: enemy.health,
             level: enemy.level,
-            attack: enemy.attack,
-            armor: enemy.armor,
+            damage: enemy.damage,
+            defense: enemy.defense,
             speed: enemy.speed,
             crit_chance: enemy.crit_chance,
+            crit_multi: enemy.crit_multi,
         }
     }
 
@@ -73,11 +75,23 @@ impl Enemy {
     }
 
     pub fn attack(&self, target: &mut Player) {
-        let mut damage = self.attack - target.armor;
-        if damage < 0 {
-            damage = 0;
+        let mut rng = rand::thread_rng();
+
+        let damage_modifier = rng.gen_range(0.9..=1.5);
+        let base_damage = ((self.damage as f32 * damage_modifier) as i32).max(0);
+        let damage = (base_damage - target.defense).max(0);
+        let crit_roll = rng.gen_range(0.0..1.0);
+
+        // println!("{} strikes for {} damage", self.name.red(), damage.to_string().red().bold());
+        if crit_roll < self.crit_chance {
+            let crit_damage = ((damage as f32) * self.crit_multi) as i32;
+            println!("{} {} strikes for {} damage", self.name.red(), "critically".to_string().yellow() , crit_damage.to_string().red().bold());
+            target.take_damage(damage);
+        } else {
+            println!("{} strikes for {} damage", self.name.red(), damage.to_string().red().bold());
+            target.take_damage(damage);
         }
-        println!("{} strikes for {} damage", self.name.red(), damage);
-        target.take_damage(damage);
+
+        // target.take_damage(damage);
     }
 }
