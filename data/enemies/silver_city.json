@@ -1,20 +1,20 @@
 [
     {
         "name": "Goblin",
-        "health": 200,
+        "health": 20,
         "level": 1,
-        "damage": 20,
-        "defense": 10,
+        "damage": 2,
+        "defense": 1,
         "speed": 0.4,
         "crit_chance": 0.10,
-        "crit_multi": 1.25
+        "crit_multi": 1.5
     },
     {
         "name": "Troglodyte",
         "health": 300,
         "level": 1,
-        "damage": 50,
-        "defense": 20,
+        "damage": 5,
+        "defense": 2,
         "speed": 0.2,
         "crit_chance": 0.20,
         "crit_multi": 1.3
