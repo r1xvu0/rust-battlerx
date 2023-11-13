@@ -38,10 +38,34 @@ impl Enemy {
     //     }
     // }
 
+    pub fn roll_rarity() -> String {
+        let mut rng = rand::thread_rng();
+        let random = rng.gen_range(0.0..1.0);
+        let rarity = if random < 0.1 {
+            "basic".to_string()
+        } else if random < 0.25 {
+            "uncommon".to_string()
+        } else if random < 0.45 {
+            "rare".to_string()
+        } else if random < 0.7 {
+            "epic".to_string()
+        } else if random < 0.9 {
+            "legendary".to_string()
+        } else if random < 0.95 {
+            "mythical".to_string()
+        } else if random < 0.98 {
+            "ancient".to_string()
+        } else {
+            "divine".to_string()
+        };
+        rarity
+    }
+
     pub fn generate(player: &Player) -> Enemy {
         let location = &player.location;
+        let rarity = Self::roll_rarity();
         let file_path = format!(
-            "data/enemies/{}.json",
+            "data/enemies/{}/{}.json", rarity,
             location.replace(" ", "_").to_lowercase()
         );
 
