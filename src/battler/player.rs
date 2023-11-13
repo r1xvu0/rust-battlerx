@@ -76,7 +76,7 @@ impl Player {
 
     pub fn take_damage(&mut self, damage: i32) {
         self.health -= damage;
-        println!(" => {} has {} {}", self.name.green(), self.health.to_string().bold(), "health left".bold());
+        println!(" => {} has {} {}", self.name.green(), self.health.max(0).to_string().bold(), "health left".bold());
     }
 
     pub fn attack(&self, target: &mut Enemy) {

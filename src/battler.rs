@@ -18,13 +18,6 @@ impl Battler {
         Battler { player, enemy }
     }
 
-    // pub fn status(&self) {
-    //     println!("{}", "=".repeat(25));
-    //     println!("{:<10} {:<5} {}", self.player.name, "|".to_string(), self.enemy.name);
-    //     println!("{:<10} {:<5} {}", self.player.health, "|".to_string(), self.enemy.health);
-    //     println!("{}", "=".repeat(25));
-    // }
-
     pub fn fight(&mut self, manager: &mut Manager) {
         println!("{} is fighting {}", self.player.name, self.enemy.name);
 
@@ -59,12 +52,10 @@ impl Battler {
             } else if self.enemy.health <= 0 {
                 println!("\n\n");
                 println!("{:>10} {:>10} {}", self.enemy.name.red().bold(), "", "has perished".bold());
-                // println!("{} has {} health left", self.player.name.green(), self.player.health);
                 println!("\n\n");
                 println!("{:>10} {:>10} {}", self.player.name.green().bold(), "", "has won".bold());
                 println!("\n\n");
                 manager.change_state(manager::ManagerState::City);
-                // manager.start()
             }
         }
         

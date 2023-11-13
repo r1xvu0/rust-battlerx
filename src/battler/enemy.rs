@@ -39,7 +39,6 @@ impl Enemy {
     // }
 
     pub fn generate(player: &Player) -> Enemy {
-        // todo!("Generate enemy");
         let location = &player.location;
         let file_path = format!(
             "data/enemies/{}.json",
@@ -71,7 +70,7 @@ impl Enemy {
 
     pub fn take_damage(&mut self, damage: i32) {
         self.health -= damage;
-        println!(" => {} has {} health left", self.name.red(), self.health);
+        println!(" => {} has {} {}", self.name.red(), self.health.max(0).to_string().bold(), "health left".bold());
     }
 
     pub fn attack(&self, target: &mut Player) {
@@ -82,7 +81,6 @@ impl Enemy {
         let damage = (base_damage - target.defense).max(0);
         let crit_roll = rng.gen_range(0.0..1.0);
 
-        // println!("{} strikes for {} damage", self.name.red(), damage.to_string().red().bold());
         if crit_roll < self.crit_chance {
             let crit_damage = ((damage as f32) * self.crit_multi) as i32;
             println!("{} {} strikes for {} damage", self.name.red(), "critically".to_string().yellow() , crit_damage.to_string().red().bold());
@@ -92,6 +90,5 @@ impl Enemy {
             target.take_damage(damage);
         }
 
-        // target.take_damage(damage);
     }
 }
