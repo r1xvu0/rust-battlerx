@@ -1,6 +1,8 @@
 use std::io::stdin;
 
-use crate::battler::{self, enemy, player};
+use colored::Colorize;
+
+use crate::battler::{self, enemy::Enemy, player};
 
 pub struct Manager {
     manager_state: ManagerState,
@@ -48,6 +50,12 @@ impl Manager {
                 "m" => {
                     todo!("Implement Manual");
                 }
+                "h" => {
+                    todo!("Implement Healer");
+                }
+                "s" => {
+                    todo!("Implement Player Stats");
+                }
                 "q" => {
                     std::process::exit(0);
                 }
@@ -60,13 +68,18 @@ impl Manager {
 
     fn battle(&mut self) {
         let player = self.player.clone();
-        let enemy = enemy::Enemy::new("Behemot".to_string());
+        // let enemy = enemy::Enemy::new("Behemot".to_string());
+        // let enemy: Enemy = Enemy::generate(&player);
+        let enemy: Enemy = Enemy::generate(&player);
 
         let mut battler = battler::Battler::new(player, enemy);
         battler.fight(self);
+        if battler.player.health <= 0 {
+            battler.player.health = 1;
+        }
         self.player = battler.player;
         self.player.save().expect("Failed to save player");
-        println!("Player HP: {:?}", self.player.health);
+        println!("{} HP: {:?}", self.player.name.green(), self.player.health);
         self.start();
     }
 

@@ -17,6 +17,7 @@ pub struct Player {
     pub armor: i32,
     pub speed: f32,
     pub crit_chance: f32,
+    pub location: String,
 }
 
 impl Player {
@@ -36,6 +37,7 @@ impl Player {
             armor: 3,
             speed: 1.0,
             crit_chance: 0.25,
+            location: "Silver City".to_string(),
         }
     }
 
@@ -80,15 +82,20 @@ impl Player {
         let crit_roll: f32 = rng.gen_range(0.0..1.0);
         let random_mod: i32 = rng.gen_range(0..10);
         let random_modifier = random_mod * self.level / 10;
-        println!("{}", random_modifier);
+        // println!("{}", random_modifier);
 
         if crit_roll < self.crit_chance {
-            // let crit_damage = ((self.attack + random_modifier) * 2) - target.armor;
-            let crit_damage = ((self.attack + random_modifier) - target.armor) * 2;
+            let mut crit_damage = ((self.attack + random_modifier) - target.armor) * 2;
+            if crit_damage < 0 {
+                crit_damage = 0
+            }
             println!("{} {} strikes for {} damage", self.name.green(), "critically".to_string().yellow() , crit_damage);
             target.take_damage(crit_damage);
         } else {
-            let damage = (self.attack + random_modifier) - target.armor;
+            let mut damage = (self.attack + random_modifier) - target.armor;
+            if damage < 0 {
+                damage = 0
+            }
             println!("{} strikes for {} damage", self.name.green(), damage);
             target.take_damage(damage);
         }
@@ -106,6 +113,7 @@ impl Player {
             armor: self.armor,
             speed: self.speed,
             crit_chance: self.crit_chance,
+            location: self.location.clone(),
         };
         player
     }

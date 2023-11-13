@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Goblin",
+        "health": 20,
+        "level": 1,
+        "attack": 2,
+        "armor": 1,
+        "speed": 0.4,
+        "crit_chance": 0.10
+    },
+    {
+        "name": "Troglodyte",
+        "health": 30,
+        "level": 1,
+        "attack": 5,
+        "armor": 2,
+        "speed": 0.2,
+        "crit_chance": 0.20
+    }
+]
