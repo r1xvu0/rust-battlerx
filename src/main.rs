@@ -1,5 +1,5 @@
 
-use battler::{player, enemy};
+// use battler::{player, enemy};
 use manager::ManagerState;
 
 mod battler;

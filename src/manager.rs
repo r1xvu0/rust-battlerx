@@ -1,4 +1,4 @@
-use std::{io::stdin, thread::sleep, time::Duration};
+use std::io::stdin;
 
 use crate::battler::{self, enemy, player};
 
@@ -44,6 +44,12 @@ impl Manager {
                 "b" => {
                     self.change_state(ManagerState::Battling);
                     self.start();
+                }
+                "m" => {
+                    todo!("Implement Manual");
+                }
+                "q" => {
+                    std::process::exit(0);
                 }
                 _ => {
                     println!("Invalid input");

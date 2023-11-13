@@ -3,7 +3,7 @@ pub mod player;
 
 use enemy::Enemy;
 use player::Player;
-use std::{time::{Duration, Instant}, process::Command, thread::sleep};
+use std::time::{Duration, Instant};
 use colored::*;
 
 use crate::manager::{Manager, self};
@@ -18,12 +18,12 @@ impl Battler {
         Battler { player, enemy }
     }
 
-    pub fn status(&self) {
-        println!("{}", "=".repeat(25));
-        println!("{:<10} {:<5} {}", self.player.name, "|".to_string(), self.enemy.name);
-        println!("{:<10} {:<5} {}", self.player.health, "|".to_string(), self.enemy.health);
-        println!("{}", "=".repeat(25));
-    }
+    // pub fn status(&self) {
+    //     println!("{}", "=".repeat(25));
+    //     println!("{:<10} {:<5} {}", self.player.name, "|".to_string(), self.enemy.name);
+    //     println!("{:<10} {:<5} {}", self.player.health, "|".to_string(), self.enemy.health);
+    //     println!("{}", "=".repeat(25));
+    // }
 
     pub fn fight(&mut self, manager: &mut Manager) {
         println!("{} is fighting {}", self.player.name, self.enemy.name);

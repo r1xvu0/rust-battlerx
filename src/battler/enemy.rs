@@ -26,6 +26,10 @@ impl Enemy {
         }
     }
 
+    pub fn generate() {
+        todo!("Generate enemy");
+    }
+
     pub fn take_damage(&mut self, damage: i32) {
         self.health -= damage;
         println!(" => {} has {} health left", self.name.red(), self.health);

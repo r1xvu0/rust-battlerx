@@ -60,15 +60,15 @@ impl Player {
         Ok(())
     }
 
-    pub fn level_up(&mut self) {
-        if self.xp >= self.next_level_xp {
-            self.xp = 0;
-            self.level += 1;
-            self.max_health += 10;
-            self.health = self.max_health;
-            self.next_level_xp = self.next_level_xp * 2;
-        }
-    }
+    // pub fn level_up(&mut self) {
+    //     if self.xp >= self.next_level_xp {
+    //         self.xp = 0;
+    //         self.level += 1;
+    //         self.max_health += 10;
+    //         self.health = self.max_health;
+    //         self.next_level_xp = self.next_level_xp * 2;
+    //     }
+    // }
 
     pub fn take_damage(&mut self, damage: i32) {
         self.health -= damage;
