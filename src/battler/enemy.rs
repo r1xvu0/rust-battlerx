@@ -86,7 +86,7 @@ impl Enemy {
         if crit_roll < self.crit_chance {
             let crit_damage = ((damage as f32) * self.crit_multi) as i32;
             println!("{} {} strikes for {} damage", self.name.red(), "critically".to_string().yellow() , crit_damage.to_string().red().bold());
-            target.take_damage(damage);
+            target.take_damage(crit_damage);
         } else {
             println!("{} strikes for {} damage", self.name.red(), damage.to_string().red().bold());
             target.take_damage(damage);

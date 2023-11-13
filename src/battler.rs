@@ -58,10 +58,10 @@ impl Battler {
                 manager.change_state(manager::ManagerState::City);
             } else if self.enemy.health <= 0 {
                 println!("\n\n");
-                println!("{:>10} {:<10} {}", self.enemy.name.red().bold(), "", "has perished".bold());
+                println!("{:>10} {:>10} {}", self.enemy.name.red().bold(), "", "has perished".bold());
                 // println!("{} has {} health left", self.player.name.green(), self.player.health);
                 println!("\n\n");
-                println!("{:>10} {:<10} {}", self.player.name.green().bold(), "", "has won".bold());
+                println!("{:>10} {:>10} {}", self.player.name.green().bold(), "", "has won".bold());
                 println!("\n\n");
                 manager.change_state(manager::ManagerState::City);
                 // manager.start()
