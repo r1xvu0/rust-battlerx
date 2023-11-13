@@ -11,7 +11,7 @@
     },
     {
         "name": "Troglodyte",
-        "health": 300,
+        "health": 30,
         "level": 1,
         "damage": 5,
         "defense": 2,
@@ -21,11 +21,11 @@
     },
     {
         "name": "Big Buffed Goblin",
-        "health": 3000,
-        "level": 100,
+        "health": 300,
+        "level": 10,
         "damage": 20,
-        "defense": 30,
-        "speed": 1.0,
+        "defense": 15,
+        "speed": 0.7,
         "crit_chance": 0.35,
         "crit_multi": 1.5
     }
