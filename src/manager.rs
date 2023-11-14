@@ -37,9 +37,11 @@ impl Manager {
     fn menu(&mut self) {
         loop {
             println!("{} {}", "=".repeat(25), "=".repeat(25));
+            println!{"{} ({}) HP: {} / {}", self.player.name.green().bold(), self.player.level.to_string().yellow().bold(), self.player.health.to_string().red().bold(), self.player.max_health.to_string().red().bold()}
+            println!("{} {}", "=".repeat(25), "=".repeat(25));
             println!("Welcome to the city!");
             println!("{} {}", "=".repeat(25), "=".repeat(25));
-            println!("b) Battle | m) Manual | q) Quit");
+            println!("b) Battle | h) Heal | m) Manual | q) Quit");
             let mut input = String::new();
             stdin().read_line(&mut input).expect("Failed to read line");
             match input.trim() {
@@ -51,7 +53,7 @@ impl Manager {
                     todo!("Implement Manual");
                 }
                 "h" => {
-                    todo!("Implement Healer");
+                    self.heal();
                 }
                 "s" => {
                     todo!("Implement Player Stats");
@@ -68,8 +70,6 @@ impl Manager {
 
     fn battle(&mut self) {
         let player = self.player.clone();
-        // let enemy = enemy::Enemy::new("Behemot".to_string());
-        // let enemy: Enemy = Enemy::generate(&player);
         let enemy: Enemy = Enemy::generate(&player);
 
         let mut battler = battler::Battler::new(player, enemy);
@@ -77,13 +77,18 @@ impl Manager {
         if battler.player.health <= 0 {
             battler.player.health = 1;
         }
+        
         self.player = battler.player;
         self.player.save().expect("Failed to save player");
-        println!("{} HP: {:?}", self.player.name.green(), self.player.health);
         self.start();
     }
 
     pub fn change_state(&mut self, state: ManagerState) {
         self.manager_state = state;
+    }
+
+    fn heal(&mut self) {
+        self.player.health = self.player.max_health;
+        println!("Player healed!");
     }
 }
