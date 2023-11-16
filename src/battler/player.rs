@@ -1,7 +1,7 @@
 use colored::Colorize;
 use rand::Rng;
 use serde::{Serialize, Deserialize};
-use std::{io::stdin, error::Error, fs, f32::consts::E};
+use std::{io::stdin, error::Error, fs};
 
 use super::enemy::Enemy;
 
@@ -134,21 +134,26 @@ impl Player {
                     self.max_health += points * 5;
                     self.health = self.max_health;
                     println!("{} HP Max => {} HP Max", self.health.to_string().yellow().bold(), self.max_health.to_string().yellow().bold());
+                    self.stat_points -= points;
                 }
                 "damage" => {
                     let old_damage = self.damage;
                     self.damage += points;
                     println!("{} Damage => {} Damage", old_damage.to_string().yellow().bold(), self.damage.to_string().yellow().bold());
+                    self.stat_points -= points;
                 }
                 "defense" => {
                     let old_defense = self.defense;
                     self.defense += points;
                     println!("{} Defense => {} Defense", old_defense.to_string().yellow().bold(), self.defense.to_string().yellow().bold());
+                    self.stat_points -= points;
+
                 }
                 "speed" => {
                     let old_speed = self.speed;
                     self.speed += points as f32 / 100.0;
                     println!("{} Speed => {} Speed", old_speed.to_string().yellow().bold(), self.speed.to_string().yellow().bold());
+                    self.stat_points -= points;
                 }
                 "crit_chance" => {
                     let old_crit_chance = self.crit_chance * 100.0;
@@ -157,18 +162,19 @@ impl Player {
                     let crit_chance_normalized = self.crit_chance * 100.0;
                     let rounded_crit_chance: f32 = (crit_chance_normalized * 100.0).round() / 100.0;
                     println!("{}% Critical Chance => {}% Critical Chance", rounded_old_crit_chance.to_string().yellow().bold(), rounded_crit_chance.to_string().yellow().bold());
+                    self.stat_points -= points;
                 }
                 "crit_multi" => {
                     let old_crit_multi = self.crit_multi;
                     self.crit_multi += points as f32 / 100.0;
                     let crit_multi_normalized = self.crit_multi;
                     println!("{:.5}x Critical Multiplier => {:.5}x Critical Multiplier", old_crit_multi.to_string().yellow().bold(), crit_multi_normalized.to_string().yellow().bold());
+                    self.stat_points -= points;
                 }
                 _ => {
                     println!("Invalid stat");
                 }
             }
-            self.stat_points -= points;
         }
         self.save().expect("Failed to save player");
     }
