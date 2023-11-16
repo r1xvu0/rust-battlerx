@@ -4,6 +4,7 @@ pub mod player;
 use chrono::{Local, Utc};
 use enemy::Enemy;
 use player::Player;
+use rand::Rng;
 use std::{time::{Duration, Instant}, thread::sleep};
 use colored::*;
 
@@ -62,6 +63,11 @@ impl Battler {
                 println!("\n");
                 println!("{:>10} {:>10} {}", self.player.name.green().bold(), "", "has won".bold());
                 println!("\n\n");
+
+                let xp_reward = self.enemy.exp_reward;
+                let mut xp_rand = rand::thread_rng();
+                let xp_reward = (xp_reward as f32 * xp_rand.gen_range(0.7..=1.3)) as i32;
+                self.player.add_exp(xp_reward);
                 manager.change_state(manager::ManagerState::City);
             }
         }

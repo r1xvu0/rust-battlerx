@@ -16,6 +16,7 @@ pub struct Enemy {
     pub speed: f32,
     pub crit_chance: f32,
     pub crit_multi: f32,
+    pub exp_reward: i32,
 }
 
 impl Enemy {
@@ -63,7 +64,8 @@ impl Enemy {
 
     pub fn generate(player: &Player) -> Enemy {
         let location = &player.location;
-        let rarity = Self::roll_rarity();
+        // let rarity = Self::roll_rarity();
+        let rarity: String = "basic".to_string();
         let file_path = format!(
             "data/enemies/{}/{}.json", rarity,
             location.replace(" ", "_").to_lowercase()
@@ -89,6 +91,7 @@ impl Enemy {
             speed: enemy.speed,
             crit_chance: enemy.crit_chance,
             crit_multi: enemy.crit_multi,
+            exp_reward: enemy.exp_reward,
         }
     }
 

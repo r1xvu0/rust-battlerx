@@ -1,4 +1,4 @@
-use std::io::stdin;
+ use std::io::stdin;
 
 use colored::Colorize;
 
@@ -41,7 +41,7 @@ impl Manager {
             println!("{} {}", "=".repeat(25), "=".repeat(25));
             println!("Welcome to the city!");
             println!("{} {}", "=".repeat(25), "=".repeat(25));
-            println!("b) Battle | h) Heal | m) Manual | q) Quit");
+            println!("b) Battle | h) Heal | s) Stat Check | m) Manual | q) Quit");
             let mut input = String::new();
             stdin().read_line(&mut input).expect("Failed to read line");
             match input.trim() {
@@ -56,7 +56,8 @@ impl Manager {
                     self.heal();
                 }
                 "s" => {
-                    todo!("Implement Player Stats");
+                    // self.player.distribute_stat_points();
+                    self.player.stat_check();
                 }
                 "q" => {
                     std::process::exit(0);
