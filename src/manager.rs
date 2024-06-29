@@ -37,16 +37,20 @@ impl Manager {
     fn menu(&mut self) {
         loop {
             println!("{} {}", "=".repeat(25), "=".repeat(25));
-            println!{"{} ({}) HP: {} / {}", self.player.name.green().bold(), self.player.level.to_string().yellow().bold(), self.player.health.to_string().red().bold(), self.player.max_health.to_string().red().bold()}
+            println!{"{} ({}) | HP: {} / {} | EXP: {} / {}", self.player.name.green().bold(), self.player.level.to_string().yellow().bold(), self.player.health.to_string().red().bold(), self.player.max_health.to_string().red().bold(), self.player.xp.to_string().yellow().bold(), self.player.next_level_xp.to_string().yellow().bold()};
             println!("{} {}", "=".repeat(25), "=".repeat(25));
             println!("Welcome to the city!");
             println!("{} {}", "=".repeat(25), "=".repeat(25));
-            println!("b) Battle | h) Heal | s) Stat Check | m) Manual | q) Quit");
+            println!("b) Battle | c) Change Location | h) Heal | s) Stat Check | m) Manual | q) Quit");
             let mut input = String::new();
             stdin().read_line(&mut input).expect("Failed to read line");
             match input.trim() {
                 "b" => {
                     self.change_state(ManagerState::Battling);
+                    self.start();
+                }
+                "c" => {
+                    self.player.change_location();
                     self.start();
                 }
                 "m" => {

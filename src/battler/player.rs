@@ -205,6 +205,10 @@ impl Player {
         }
     }
 
+    pub fn change_location(&mut self) {
+        todo!();
+    }
+
     pub fn clone(&mut self) -> Player {
         let player = Player {
             name: self.name.clone(),

@@ -20,16 +20,5 @@
         "crit_chance": 0.20,
         "crit_multi": 1.3,
         "exp_reward": 15
-    },
-    {
-        "name": "Big Buffed Goblin",
-        "health": 300,
-        "level": 10,
-        "damage": 20,
-        "defense": 15,
-        "speed": 0.7,
-        "crit_chance": 0.35,
-        "crit_multi": 1.5,
-        "exp_reward": 300
     }
 ]
